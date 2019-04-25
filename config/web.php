@@ -41,7 +41,6 @@ $config = [
                         'class' => 'yii\log\FileTarget',
                         'levels' => ['info'],
                         'categories' => ['my_sp_log'],
-
                         'logFile' => '@app/runtime/logs/my.log',
 
                 ],

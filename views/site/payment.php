@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
 
-            <?php $form = ActiveForm::begin(['id' => 'payment-form']); ?>
+            <?php $form = ActiveForm::begin(['id' => 'payment-form'], ['method' => 'post']); ?>
             <?= $form->field($model, 'user_email')->textInput(['autofocus' => true]) ?>
             <?= $form->field($model, 'user_birthday') ?>
             <?= $form->field($model, 'amount') ?>

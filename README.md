@@ -8,15 +8,15 @@ Update your vendor packages
     
 Run the installation triggers (creating cookie validation code)
 
-    docker-compose run --rm php composer install    
+    sudo docker-compose run --rm php composer install    
     
 Start the container
 
-    docker-compose up -d
+    sudo docker-compose up -d
     
 You can then access the application through the following URL:
 
-    http://127.0.0.1:8000
+    http://127.0.0.1:8089
 
 **NOTES:** 
 - Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))

@@ -1,6 +1,7 @@
 <?php
 namespace app\models;
 
+
 use Yii;
 use yii\base\Model;
 use yii\httpclient\Client;
@@ -30,12 +31,6 @@ class DepkasaMock extends Model
     public $expiryYear;
     public $callbackUrl;
 
-
-
-
-
-
-
     public function generateToken($request)
     {
         $referenceNo = uniqid('reference_');
@@ -47,20 +42,37 @@ class DepkasaMock extends Model
         return md5($rawHash);
     }
 
-    function PayDepKasa($request,$repite=10){
+    function PayDepKasa($request,$repeate=10){
+
 
         $client = new Client();
-        $response = $client->createRequest()
+        /* $response = $client->createRequest()
+             ->setMethod('POST')
+             ->setUrl(Yii::$app->params['paymentURL'])
+             ->addHeaders(['content-type' => 'application/x-www-form-urlencoded'])
+             ->setData(['name' => 'John Doe', 'email' => 'johndoe@example.com'])
+             ->send();
+         if ($response->isOk) {
+             $newUserId = $response->data['id'];
+         }*/
+        \Yii::info('StatusPayDepKasa have data', 'my_sp_log');
+        if ($repeate>0) {$this->StatusPayDepKasa($request,$repeate-1);}
+
+    }
+    function StatusPayDepKasa($request,$repeate=10){
+
+        $client = new Client();
+       /* $response = $client->createRequest()
             ->setMethod('POST')
-            ->setUrl('http://example.com/api/1.0/users')
+            ->setUrl(Yii::$app->params['paymentURL'])
             ->addHeaders(['content-type' => 'application/x-www-form-urlencoded'])
             ->setData(['name' => 'John Doe', 'email' => 'johndoe@example.com'])
             ->send();
         if ($response->isOk) {
             $newUserId = $response->data['id'];
-        }
-
+        }*/
+        \Yii::info('StatusPayDepKasa have data', 'my_sp_log');
+        if ($repeate>0) {$this->StatusPayDepKasa($request,$repeate-1);}
     }
-
 
 }

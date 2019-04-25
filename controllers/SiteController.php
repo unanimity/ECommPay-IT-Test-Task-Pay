@@ -6,7 +6,7 @@ use app\models\PaymentForm;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-
+use yii;
 
 class SiteController extends Controller
 {
@@ -58,7 +58,7 @@ class SiteController extends Controller
      * @return string
      */
     public function actionIndex()
-    {\Yii::info('blah blah', 'my');
+    {
         return $this->render('index');
     }
 
@@ -76,9 +76,25 @@ class SiteController extends Controller
     public function actionPayment()
     {
         $model = new PaymentForm();
+
+        if($model->load(Yii::$app->request->post())) {
+
+
+
+        /*    $request = Yii::$app->request->post('user_email');
+
+            return $this->render('hello'.$request);
+*/
+        }
+
         return $this->render('payment',[
         'model' => $model,
         ]);
+
+
+
+
+
     }
 
     public function actionSay($message = 'Привет')

@@ -3,7 +3,6 @@
 /* @var $this yii\web\View */
 
 use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
 use yii\helpers\Html;
 
 
@@ -20,11 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
 
             <?php $form = ActiveForm::begin(['id' => 'payment-form']); ?>
-
             <?= $form->field($model, 'user_email')->textInput(['autofocus' => true]) ?>
-
             <?= $form->field($model, 'user_birthday') ?>
-
             <?= $form->field($model, 'amount') ?>
             <?= $form->field($model, 'currency') ?>
             <?= $form->field($model, 'returnUrl') ?>
@@ -36,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'billingAddress1') ?>
             <?= $form->field($model, 'billingCity') ?>
             <?= $form->field($model, 'billingPostcode') ?>
-
             <?= $form->field($model, 'billingCountry') ?>
             <?= $form->field($model, 'paymentMethod') ?>
             <?= $form->field($model, 'number') ?>

@@ -16,7 +16,6 @@ class PaymentForm extends DepkasaMock
 
             ['$user_email', 'email'],
 
-            ['verifyCode', 'captcha'],
         ];
     }
 
@@ -40,7 +39,7 @@ class PaymentForm extends DepkasaMock
 
             return true;
         }*/
-        \Yii::error('test*');
-        return false;
+        \Yii::info('contact', 'my');
+        return true;
     }
 }

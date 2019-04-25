@@ -1,13 +1,36 @@
 <?php
 namespace app\models;
-use app\models\DataStorage;
 
-class PaymentForm extends DepkasaMock
+
+use yii\base\Model;
+
+class DataStorage extends Model
 {
+    function initPayments($request)
+    {
+        \Yii::$app->db->createCommand()
+            ->insert('payment', [
+                'code' => 'tt',
+                'name' => 'test6',
+                'population' => 30,
+            ])->execute();
+        return true;
+    }
+
+    function setStatus(){
+
+        return true;
+    }
+    function getHistory()
+    {
+
+        return null;
+    }
+
 
     /**
      * @return array the validation rules.
-     */
+
     public function rules()
     {
         return [
@@ -21,12 +44,8 @@ class PaymentForm extends DepkasaMock
     }
 
     public function Pay($args){
-
-        $datastoregge=new DataStorage();
-        return [$datastoregge->initPayments('k'),$this->PayDepKasa($args)];
+        return $this->PayDepKasa($args);
     }
-
-
-
+*/
 
 }

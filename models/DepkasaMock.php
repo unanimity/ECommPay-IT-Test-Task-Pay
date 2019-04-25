@@ -65,7 +65,7 @@ class DepkasaMock extends Model
         Yii::info('my token='.$token, 'my_sp_log');
 
 
-
+    return null;
 
         $client = new Client();
         $response = $client->createRequest()

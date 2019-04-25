@@ -10,26 +10,32 @@ class DepkasaMock extends Model
 {
 
     public $payment_id;
+
+    //From user
     public $user_email;
     public $user_birthday;
     public $amount;
-    public $currency;
-    public $returnUrl;
-    public $referenceNo;
-    public $timestamp;
-    public $language;
+
     public $billingFirstName;
     public $billingLastName;
     public $billingAddress1;
     public $billingCity;
     public $billingPostcode;
     public $billingCountry;
-    public $paymentMethod;
+
     public $number;
     public $cvv;
     public $expiryMonth;
     public $expiryYear;
-    public $callbackUrl;
+
+    //Back processed
+    public $currency='EUR';
+    public $returnUrl='';
+    public $referenceNo='';
+    public $timestamp;
+    public $language='';
+    public $paymentMethod='';
+    public $callbackUrl='';
 
     public function generateToken($request)
     {
@@ -44,7 +50,8 @@ class DepkasaMock extends Model
 
     function PayDepKasa($request,$repeate=10){
 
-
+        $time = new \DateTime('now', new \DateTimeZone('UTC'));
+        $timestamp= $time->getTimestamp();
         $client = new Client();
         /* $response = $client->createRequest()
              ->setMethod('POST')

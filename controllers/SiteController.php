@@ -81,7 +81,14 @@ class SiteController extends Controller
          $request=Yii::$app->request->post('PaymentForm');
          $model->Pay($request);
         \Yii::info('have data:'.json_encode($request), 'my_sp_log');
-        }
+
+
+
+            return $this->render('process',[
+                'model' => $model,
+            ]);
+
+        } else
 
 
         return $this->render('payment',[

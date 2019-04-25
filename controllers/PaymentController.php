@@ -7,7 +7,7 @@ use app\models\Payment;
 
 class PaymentController extends Controller
 {
-    public function actionIndex()
+   /* public function actionIndex()
     {
         $query = Payment::find();
 
@@ -25,5 +25,8 @@ class PaymentController extends Controller
             'payments' => $payments,
             'pagination' => $pagination,
         ]);
-    }
+
+    }*/
+
+    public $modelClass = 'app\models\payment';
 }

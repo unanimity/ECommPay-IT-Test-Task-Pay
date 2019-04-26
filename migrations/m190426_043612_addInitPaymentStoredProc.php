@@ -32,9 +32,6 @@ class m190426_043612_addInitPaymentStoredProc extends Migration
             in i_billingCountry char(2),
             in i_paymentMethod CHAR(32),
             in i_number CHAR(16),
-            in i_cvv CHAR(3),
-            in i_expiryMonth varchar(64),
-            in i_expiryYear CHAR(2),
             in i_callbackUrl text
             )
             BEGIN
@@ -60,9 +57,6 @@ class m190426_043612_addInitPaymentStoredProc extends Migration
                         `billingCountry`,
                         `paymentMethod`,
                         `number`,
-                        `cvv`,
-                        `expiryMonth`,
-                        `expiryYear`,
                         `callbackUrl`)
                         VALUES
                         (i_payment_id,
@@ -82,18 +76,14 @@ class m190426_043612_addInitPaymentStoredProc extends Migration
                         i_billingCountry,
                         i_paymentMethod,
                         i_number,
-                        i_cvv,
-                        i_expiryMonth,
-                        i_expiryYear,
                         i_callbackUrl);
-                        
+        
                         INSERT INTO `web`.`payments_status`
                         (`payment_id`)
                         VALUES
                         (
                         i_payment_id);
                 COMMIT;
-            select i_payment_id;
             END
         "
         );
@@ -106,14 +96,14 @@ class m190426_043612_addInitPaymentStoredProc extends Migration
      */
     public function safeDown()
     {
-        echo "m190426_043612_addInitPaymentStoredProc cannot be reverted.\n";
+
         $connection = Yii::$app->getDb();
         $command = $connection->createCommand("
             DROP PROCEDURE `web`.`initPayment`;
         "
         );
         $command->execute();
-        return false;
+
     }
 
     /*

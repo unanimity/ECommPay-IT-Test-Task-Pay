@@ -14,8 +14,9 @@ class PaymentForm extends DepkasaMock
 
             [['email', 'birthday', 'amount'], 'required','message'=>'Enter gift info'],
             [['billingFirstName', 'billingLastName', 'billingAddress1', 'billingCity', 'billingPostcode', 'billingCountry'], 'required','message'=>'Enter delivery info'],
-            [['number', 'cvv', 'expiryMonth', 'expiryYear'], 'required','message'=>'Enter Card info'],
-            ['$email', 'email'],
+            [['number', 'cvv', 'expiryMonth', 'expiryYear'], 'number','message'=>'Enter Card info'],
+            ['$email', 'email']
+         /*   [['billingCountry'],'required','max' => 2],*/
 
         ];
     }
@@ -23,7 +24,11 @@ class PaymentForm extends DepkasaMock
     public function Pay($args){
 
         $datastoregge=new DataStorage();
-        return [$datastoregge->initPayments('k'),$this->PayDepKasa($args)];
+        $args=$this->prepareTransaction($args);
+        if ($datastoregge->initPayments($args)){
+            $this->PayDepKasa($args);
+        }
+        return true;//
     }
 
 

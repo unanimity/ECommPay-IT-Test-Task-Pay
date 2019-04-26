@@ -29,13 +29,10 @@ class m190425_201132_toCurrentStructure extends Migration
               `billingAddress1` CHAR(128) NULL,
               `billingCity` CHAR(64) NULL,
               `billingPostcode` CHAR(64) NULL,
-     
               `billingCountry` CHAR(2) NULL,
               `paymentMethod` CHAR(32) NULL,
               `number` CHAR(16) NULL,
               `cvv` CHAR(3) NULL,
-              `expiryMonth` CHAR(2) NULL,
-              `expiryYear` CHAR(2) NULL,
               `callbackUrl` text NULL,
               PRIMARY KEY (`payment_id`),
               UNIQUE INDEX `payment_id_UNIQUE` (`payment_id` ASC))
@@ -70,7 +67,7 @@ class m190425_201132_toCurrentStructure extends Migration
     public function safeDown()
     {
 
-        echo "m190425_201132_toCurrentStructure cannot be reverted.\n";
+
         $connection = Yii::$app->getDb();
         $command = $connection->createCommand("
         DROP TABLE `web`.`payments`;
@@ -78,7 +75,7 @@ class m190425_201132_toCurrentStructure extends Migration
         "
         );
         $command->execute();
-        return false;
+
     }
 
     /*

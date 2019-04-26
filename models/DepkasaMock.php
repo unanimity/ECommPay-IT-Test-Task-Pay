@@ -16,7 +16,7 @@ class RequestData {
 class DepkasaMock extends Model
 {
 
-    public $payment_id;
+ public $payment_id;
 
     //From user
     public $email;
@@ -43,29 +43,28 @@ class DepkasaMock extends Model
     protected $paymentMethod='';
     protected $currency='EUR';
 
-    protected function generateToken($request)
-    {
-
+    public function prepareTransaction($request)
+    {   $request['returnUrl'] =$this->returnUrl;
+        $request['language'] =$this->language;
+        $request['paymentMethod'] =$this->paymentMethod;
+        $request['referenceNo'] = uniqid('reference_');
+        $request['timestamp'] = time ();
+        $apiKey = Yii::$app->params['apiKey'];
+        $secretKey = Yii::$app->params['secretKey'];
+        $request['currency']=$this->currency ;
+        $request['callbackUrl']=Yii::$app->params['callbackUrl'];
+        $rawHash = $secretKey . $apiKey .
+            $request['amount'] .$request['currency']. $request['referenceNo']. $request['timestamp'];
+        $request['token']= md5($rawHash);
+        return $request;
     }
 
     function PayDepKasa($request,$repeate=1){
 
-        $referenceNo = uniqid('reference_');
-        $timestamp= time ();
-        $apiKey = Yii::$app->params['apiKey'];
-        $secretKey = Yii::$app->params['secretKey'];
-        $rawHash = $secretKey . $apiKey .
-            $request['amount'] .$this->currency . $referenceNo . $timestamp;
-        $token= md5($rawHash);
 
-
-       // $token=$this->generateToken($request);
-        $callbackUrl=Yii::$app->params['callbackUrl'];
         Yii::info('$request='.json_encode($request), 'my_sp_log');
-        Yii::info('my token='.$token, 'my_sp_log');
+        Yii::info('my token='.$request['token'], 'my_sp_log');
 
-
-    return null;
 
         $client = new Client();
         $response = $client->createRequest()
@@ -74,28 +73,28 @@ class DepkasaMock extends Model
              ->addHeaders(['content-type' => 'application/x-www-form-urlencoded'])
              ->setData(
                  [
-                     'token' => $token,
+                     'token' => $request['token'],
                      'apiKey' => Yii::$app->params['apiKey'],
                      'email' => $request['email'],
                      'birthday' => $request['birthday'],
                      'amount' => $request['amount'],
-                     'currency' =>$this->currency ,
-                     'returnUrl' => $this->returnUrl,
-                     'referenceNo' => $this->referenceNo,
-                     'timestamp' => $this->timestamp,
-                     'language' => $this->language,
+                     'currency' =>$request['currency'],
+                     'returnUrl' =>$request['returnUrl'],
+                     'referenceNo' =>$request['referenceNo'] ,
+                     'timestamp' =>$request['timestamp'] ,
+                     'language' =>$request['language'],
                      'billingFirstName' => $request['billingFirstName'],
                      'billingLastName' => $request['billingLastName'],
                      'billingAddress1' => $request['billingAddress1'],
                      'billingCity' => $request['billingCity'],
                      'billingPostcode' => $request['billingPostcode'],
                      'billingCountry' => $request['billingCountry'],
-                     'paymentMethod' => $this->paymentMethod,
+                     'paymentMethod' => $request['paymentMethod'],
                      'number' =>$request['number'],
                      'cvv' => $request['cvv'],
                      'expiryMonth' => $request['expiryMonth'],
                      'expiryYear' => $request['expiryYear'],
-                     'callbackUrl' =>$callbackUrl
+                     'callbackUrl' =>$request['callbackUrl']
                  ])
              ->send();
 

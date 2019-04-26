@@ -11,6 +11,8 @@ use yii\web\View;
     <h1>Success</h1>
 
     <p>
+        sdvsdvsdsvdsdv
+        msGGGGG
         This is the About page. You may modify the following file to customize its content:
     </p>
 

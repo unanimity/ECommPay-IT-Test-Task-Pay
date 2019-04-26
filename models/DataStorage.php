@@ -48,7 +48,34 @@ class DataStorage extends Model
         return true;
     }
 
-    function setStatus(){
+    function setStatus($request){
+
+
+       $payments = (new \yii\db\Query())
+            ->select(['payment_id'])
+            ->from('payments')
+            ->where(['referenceNo' => $request['referenceNo']])
+            ->limit(1)
+            ->all();
+
+        (new \yii\db\Query())->insert('payments_status', [
+            'payment_id' => ($payments.length>0)?$payments[0]['payment_id']:'',
+            'status' => $request['status']
+        ])->execute();
+        (new \yii\db\Query())->update('payments_status', [
+            'payment_id' => ($payments.length>0)?$payments[0]['payment_id']:'',
+            'status' => $request['status']
+        ])->execute();
+
+
+/*
+        $rows = (new \yii\db\Query())
+            ->select(['id', 'email'])
+            ->from('user')
+            ->where(['last_name' => 'Smith'])
+            ->limit(10)
+            ->all();*/
+
 
         return true;
     }

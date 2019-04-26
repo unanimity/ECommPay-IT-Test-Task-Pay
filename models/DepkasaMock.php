@@ -58,7 +58,6 @@ class DepkasaMock extends Model
         $request['token']= md5($rawHash);
         return $request;
     }
-
     function PayDepKasa($request,$repeate=1){
 
 
@@ -98,29 +97,45 @@ class DepkasaMock extends Model
                  ])
              ->send();
 
-        Yii::info('json_encode($response):'.json_encode($response->data), 'my_sp_log');
-
         if ($response->isOk) {
-            Yii::info('   ($response->isOk)', 'my_sp_log');
-
+            Yii::info('json_encode($response):'.json_encode($response->data), 'my_sp_log');
+            return $response->data;
+        } else {
+            if ($repeate>0) {
+                sleep(random_int(1, 3));
+                return  $this->PayDepKasa($request,$repeate-1);
+            } else
+                return null;
         }
 
-        if ($repeate>0) {$this->StatusPayDepKasa($request,$repeate-1);}
+
 
     }
-    function StatusPayDepKasa($request,$repeate=10){
+    function getStatusPayDepKasa($referenceNo,$repeate=10){
         $client = new Client();
-       /* $response = $client->createRequest()
+        $response = $client->createRequest()
             ->setMethod('POST')
-            ->setUrl(Yii::$app->params['paymentURL'])
+            ->setUrl(Yii::$app->params['paymentDetailURL'])
             ->addHeaders(['content-type' => 'application/x-www-form-urlencoded'])
-            ->setData(['name' => 'John Doe', 'email' => 'johndoe@example.com'])
+            ->setData(
+                [
+                    'apiKey' => Yii::$app->params['apiKey'],
+                    'referenceNo' => $referenceNo
+                ])
             ->send();
         if ($response->isOk) {
-            $newUserId = $response->data['id'];
-        }*/
-        \Yii::info('StatusPayDepKasa have data', 'my_sp_log');
-        if ($repeate>0) {$this->StatusPayDepKasa($request,$repeate-1);}
+            Yii::info('getStatusPayDepKasa:'.json_encode($response->data), 'my_sp_log');
+            return $response->data;
+        } else
+        {
+            Yii::info('getStatusPayDepKasa !rep', 'my_sp_log');
+            if ($repeate>0) {
+                sleep(random_int(1, 3));
+               return $this->getStatusPayDepKasa($referenceNo,$repeate-1);
+            } else
+            return null;
+        }
+
     }
 
 }

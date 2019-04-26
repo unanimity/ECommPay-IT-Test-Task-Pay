@@ -30,7 +30,7 @@ $this->title = 'Payment';
                 <?= $form->field($model, 'billingAddress1') ->textInput(['value' => 'El/ st'])?>
                 <?= $form->field($model, 'billingCity')->textInput(['value' => 'Gotem']) ?>
                 <?= $form->field($model, 'billingPostcode')->textInput(['value' => '436632']) ?>
-                <?= $form->field($model, 'billingCountry')->textInput(['value' => 'Uganda']) ?>
+                <?= $form->field($model, 'billingCountry')->textInput(['value' => 'RU']) ?>
             </div>
             <div class="col-lg-4">
                 <h3>Pay by credit card</h3>

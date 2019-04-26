@@ -31,6 +31,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'callback' => ['post'],
                 ],
             ],
         ];
@@ -49,6 +50,9 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'cors' => [
+                'class' => \yii\filters\Cors::className(),
+            ],
         ];
     }
 
@@ -58,7 +62,7 @@ class SiteController extends Controller
      * @return string
      */
     public function actionIndex()
-    {
+    {$this->enableCsrfValidation = false;
         return $this->render('index');
     }
 
@@ -82,8 +86,6 @@ class SiteController extends Controller
          $model->Pay($request);
         \Yii::info('have data:'.json_encode($request), 'my_sp_log');
 
-
-
             return $this->render('process',[
                 'model' => $model,
             ]);
@@ -101,8 +103,11 @@ class SiteController extends Controller
 
     }
 
-    public function actionSay($message = 'Привет')
+
+    public function actionCallback()
     {
-        return $this->render('say', ['message' => $message]);
+
+        \Yii::info('actionSay actionKassaCollback()'.json_encode(Yii::$app->request->post()), 'my_sp_log');
+        return $this->render('about');
     }
 }

@@ -19,7 +19,8 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCsrfMetaTags() ?>
+    <?php /*$this->registerCsrfMetaTags()*/ ?>
+    <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
@@ -47,7 +48,7 @@ AppAsset::register($this);
 
     <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'links' => isset($this->params['breadcrumbs']) ? []: [],
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>

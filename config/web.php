@@ -1,5 +1,7 @@
 <?php
 
+use yii\rest\UrlRule;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -11,13 +13,17 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
+   /* 'homeUrl' => '/ecommpay',*/
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'ViaeT-QVFj6zG9ocu_8CaEbL8E9sXaOk',
+            'enableCsrfValidation' => false,
+          /*  'baseUrl' => '/ecommpay', // localhost/yii2advance*/
+
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
-            ],
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -48,19 +54,40 @@ $config = [
         ],
 
       'db' => $db,
-
-        'urlManager' => [
+       'urlManager' => [
            'enablePrettyUrl' => true,
            'showScriptName' => false,
+         //  'enableStrictParsing' => true,
          'rules' => [
-                 ['class' => 'yii\rest\UrlRule',
-                     'controller' => 'user',
+             ['class' => 'yii\rest\UrlRule', 'controller' => 'api'],
+           /*  [
+                 'class' => 'yii\rest\UrlRule',
+
+                 'controller' => ['api'],
+
                  'extraPatterns' => [
-                            'GET /' => 'new',
-                        ],
+
+                     'GET /index' => 'index',
+
+                     ]
+
+             ],
+             [
+                 'class' => 'yii\rest\UrlRule',
+                 'controller' => 'api',
+                 'pluralize' => false,
+                 'extraPatterns' => [
+                     'GET foo' => 'foo',
+                     'OPTIONS foo' => 'options',
                  ],
-            ],
+                 'except' => ['index', 'create', 'view', 'update', 'delete'],
+             ],
+
+*/
+              'POST api/callback' => 'site/callback',
+         ],
         ],
+
 
     ],
     'params' => $params,

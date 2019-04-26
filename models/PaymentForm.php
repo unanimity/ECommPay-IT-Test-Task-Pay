@@ -26,7 +26,10 @@ class PaymentForm extends DepkasaMock
         $datastoregge=new DataStorage();
         $args=$this->prepareTransaction($args);
         if ($datastoregge->initPayments($args)){
-            $this->PayDepKasa($args);
+            $response=$this->PayDepKasa($args);
+            if ($response!=null){
+                $datastoregge->setStatus($response);
+            };
         }
         return true;//
     }

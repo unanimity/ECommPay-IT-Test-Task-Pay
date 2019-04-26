@@ -15,7 +15,7 @@ class m190425_201132_toCurrentStructure extends Migration
         $connection = Yii::$app->getDb();
         $command = $connection->createCommand("
               CREATE TABLE IF NOT EXISTS `web`.`payments` (
-              `payment_id` CHAR(32) NOT NULL,
+              `payment_id` CHAR(36) NOT NULL,
               `user_email` CHAR(128) NULL,
               `user_birthday` DATE NULL,
               `amount` INT NULL,
@@ -46,7 +46,7 @@ class m190425_201132_toCurrentStructure extends Migration
             -- -----------------------------------------------------
             CREATE TABLE IF NOT EXISTS `web`.`payments_status` (
               `payment_status_id` INT NOT NULL AUTO_INCREMENT,
-              `payment_id` CHAR(32) NOT NULL,
+              `payment_id` CHAR(36) NOT NULL,
               `status` CHAR(18) NOT NULL DEFAULT 'init',
               `date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`payment_status_id`, `payment_id`),

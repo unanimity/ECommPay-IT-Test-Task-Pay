@@ -8,12 +8,10 @@ class DataStorage extends Model
 {
     function initPayments($request)
     {
-        \Yii::$app->db->createCommand()
-            ->insert('payment', [
-                'code' => 'tt',
-                'name' => 'test6',
-                'population' => 30,
-            ])->execute();
+        $result = \Yii::$app->db->createCommand("CALL storedProcedureName(:paramName1, :paramName2)")
+            ->bindValue(':paramName1' , $param1 )
+            ->bindValue(':paramName2', $param2)
+            ->execute();
         return true;
     }
 

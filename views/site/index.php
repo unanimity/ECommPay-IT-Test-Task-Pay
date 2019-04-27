@@ -19,7 +19,7 @@ $this->title = 'My Yii Application';
             </div>
             <hr>
             <div class="col-lg-12">
-                <a class="btn btn-light btn-lg btn-block" href="site/payment">Source on GitHub</a>
+                <a class="btn btn-light btn-lg btn-block" href="https://github.com/unanimity/ECommPay-IT-Test-Task-Pay">Source on GitHub</a>
             </div>
         </div>
 

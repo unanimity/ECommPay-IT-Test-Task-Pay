@@ -36,7 +36,7 @@ class DepkasaMock extends Model
     public $expiryYear;
 
     //Back processed
-    protected $returnUrl='http://www.sk-project.ru/api/callback';
+    protected $returnUrl='http://www.sk-project.ru';// store url ?
     protected $referenceNo='';
     public $timestamp;
     protected $language='en';
@@ -48,24 +48,24 @@ class DepkasaMock extends Model
         $request['language'] =$this->language;
         $request['paymentMethod'] =$this->paymentMethod;
         $request['referenceNo'] = uniqid('reference_');
-
         $request['timestamp'] = time ();
         $apiKey = Yii::$app->params['apiKey'];
         $secretKey = Yii::$app->params['secretKey'];
         $request['currency']=$this->currency ;
         $request['callbackUrl']=Yii::$app->params['callbackUrl'];
         $rawHash = $secretKey . $apiKey .
-            $request['amount'] .$request['currency']. $request['referenceNo']. $request['timestamp'];
+        $request['amount'] .$request['currency']. $request['referenceNo']. $request['timestamp'];
         $request['token']= md5($rawHash);
         return $request;
     }
     function PayDepKasa($request,$repeate=1){
-
+        /*
+         * $request - should be prepared  'prepareTransaction'
+         * $repeat - not necessary param , retry if some network error
+         *
+         * */
 
         Yii::info('$request='.json_encode($request), 'my_sp_log');
-        Yii::info('my token='.$request['token'], 'my_sp_log');
-        \Yii::info('apiKey :'.json_encode(Yii::$app->params['apiKey']), 'my_sp_log');
-
 
         $client = new Client();
         $response = $client->createRequest()
@@ -99,16 +99,15 @@ class DepkasaMock extends Model
                  ])
             ;
 
-
-        Yii::info('$response^ '.json_encode($response->data), 'my_sp_log');
+        Yii::info('Send Data to kassa: '.json_encode($response->data), 'my_sp_log');
 
         $response= $response->send();
 
         if ($response->isOk) {
-            Yii::info('json_encode($response):'.json_encode($response->data), 'my_sp_log');
             return $response->data;
         } else {
             if ($repeate>0) {
+                Yii::info('Retry !!! '.$repeate, 'my_sp_log');
                 sleep(random_int(1, 3));
                 return  $this->PayDepKasa($request,$repeate-1);
             } else
@@ -119,6 +118,10 @@ class DepkasaMock extends Model
 
     }
     function getStatusPayDepKasa($referenceNo,$repeate=10){
+
+        // We not use DDOS. Waiting callback
+
+
         $client = new Client();
         $response = $client->createRequest()
             ->setMethod('POST')

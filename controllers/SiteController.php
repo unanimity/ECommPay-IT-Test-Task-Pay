@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\DataStorage;
-use app\models\DepkasaMock;
 use app\models\PaymentForm;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -39,9 +38,7 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function actions()
     {
         return [
@@ -58,34 +55,34 @@ class SiteController extends Controller
         ];
     }
 
-
     public function actionIndex()
-    {$this->enableCsrfValidation = false;
+    {   $this->enableCsrfValidation = false;
         return $this->render('index');
     }
-
-
 
     public function actionPayment()
     {
         $model = new PaymentForm();
-
         if($model->load(Yii::$app->request->post())) {
          $request=Yii::$app->request->post('PaymentForm');
-         $model->Pay($request);
+          if ($model->Pay($request)){
 
-            return $this->render('process',[
-                'model' => $model,
-            ]);
+              return $this->render('process',[
+                  'model' => $model,
+              ]);
+          } else
+          {
+              return $this->render('fail',[
+                  'model' => $model,
+              ]);
+          }
 
         } else
-
         return $this->render('payment',[
         'model' => $model,
         ]);
 
     }
-
 
     public function actionCallback()
     {

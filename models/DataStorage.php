@@ -1,12 +1,9 @@
 <?php
 namespace app\models;
 
-use Yii;
+
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
-use yii\data\SqlDataProvider;
-use yii\db\Query;
 
 class DataStorage extends Model
 {
@@ -56,17 +53,23 @@ class DataStorage extends Model
 
         \Yii::info('setStatus - DB :'.json_encode($request), 'my_sp_log');
 
-
-
         // I know what I can use referenceNo as PK to table
-       $payments = (new \yii\db\Query())
-            ->select(['payment_id'])
-            ->from('payments')
-            ->where(['referenceNo' => $request['referenceNo']])
-            ->limit(1)
-            ->all();
 
-        $result = \Yii::$app->db->createCommand("
+        if (isset($request['payment_id']))
+        {
+            $payments[0]['payment_id']=$request['payment_id'];
+
+        } else {
+
+            $payments = (new \yii\db\Query())
+                ->select(['payment_id'])
+                ->from('payments')
+                ->where(['referenceNo' =>(string)(isset($request['referenceNo']))?$request['referenceNo']:''])
+                ->limit(1)
+                ->all();
+        }
+
+         \Yii::$app->db->createCommand("
                INSERT INTO `web`.`payments_status`
                 (`payment_id`,`status`,`message`)
                 VALUES
@@ -81,7 +84,7 @@ class DataStorage extends Model
             ->bindValue(':message',(string)(isset($request['message']))?$request['message']:'')
             ->execute();
 
-        $result = \Yii::$app->db->createCommand("
+         \Yii::$app->db->createCommand("
                         UPDATE `web`.`payments`
                         SET
                         `returnForm` = :returnForm,
@@ -101,7 +104,6 @@ class DataStorage extends Model
 
         $query = \Yii::$app->db->createCommand("SELECT * FROM web.getPaymentList;")->queryAll();;
 
-
         $dataProvider = new ArrayDataProvider([
                 'allModels' => $query,
                 'pagination' => [
@@ -111,29 +113,9 @@ class DataStorage extends Model
                     'attributes' => ['last_date_time'],
                 ],
             ]);
-/**/
+
         return $dataProvider;
     }
 
-
-    /**
-     * @return array the validation rules.
-
-    public function rules()
-    {
-        return [
-
-            [['email', 'birthday', 'amount'], 'required','message'=>'Enter gift info'],
-            [['billingFirstName', 'billingLastName', 'billingAddress1', 'billingCity', 'billingPostcode', 'billingCountry'], 'required','message'=>'Enter delivery info'],
-            [['number', 'cvv', 'expiryMonth', 'expiryYear'], 'required','message'=>'Enter Card info'],
-            ['$email', 'email'],
-
-        ];
-    }
-
-    public function Pay($args){
-        return $this->PayDepKasa($args);
-    }
-*/
 
 }

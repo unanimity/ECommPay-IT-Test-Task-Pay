@@ -24,19 +24,19 @@ class PaymentForm extends DepkasaMock
     }
 
     public function Pay($args){
-
         $datastoregge=new DataStorage();
         $args=$this->prepareTransaction($args);
         if ($datastoregge->initPayments($args)){
             \Yii::info('Pay -PRE :'.json_encode($args), 'my_sp_log');
             $response=$this->PayDepKasa($args);
             if ($response!=null){
-                \Yii::info('Pay -OK :'.json_encode($response), 'my_sp_log');
+                if (!isset($response['referenceNo'])){$response['referenceNo']=$args['referenceNo'];};
+                $datastoregge->setStatus($response);
+            } else return false;
 
-                   $datastoregge->setStatus($response);
-            };
-        }
-        return true;//
+        } else return false;
+
+        return true;
     }
     public function ProcessingCallback($args){
         $datastoregge=new DataStorage();

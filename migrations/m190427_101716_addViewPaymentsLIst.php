@@ -25,7 +25,8 @@ VIEW `getPaymentList` AS
         `payments`.`user_birthday` AS `user_birthday`,
         `payments`.`amount` AS `amount`,
         `payments_status`.`status` AS `status`,
-        `payments_status`.`message` AS `message`
+        `payments_status`.`message` AS `message`,
+        `T1`.`max_date_time` AS `last_date_time`
     FROM
         (((SELECT 
             `payments_status`.`payment_id` AS `payment_id`,

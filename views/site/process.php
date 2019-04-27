@@ -7,9 +7,19 @@ use yii\helpers\Html;
 ?>
 <div class="site-about">
     <h1>Processing</h1>
+<div class="row">
+    <div class="col-lg-6">
 
-    <p>
-        This is the About page. You may modify the following file to customize its content:
-    </p>
+        <h5>
+            Your order processing.
+            Check <a class="btn-link" href="history">History</a> to more info.
+        </h5>
+
+    </div>
+
+
+
+</div>
+
 
 </div>

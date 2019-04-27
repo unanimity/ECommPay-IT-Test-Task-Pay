@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\DataStorage;
 use app\models\DepkasaMock;
 use app\models\PaymentForm;
 use yii\filters\AccessControl;
@@ -57,25 +58,12 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
+
     public function actionIndex()
     {$this->enableCsrfValidation = false;
         return $this->render('index');
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
 
 
     public function actionPayment()
@@ -103,6 +91,11 @@ class SiteController extends Controller
     {
         $model = new PaymentForm();
         $model->ProcessingCallback(Yii::$app->request->post());
-        return $this->render('about');
+        return $this->render('process');
+    }
+
+    public function actionHistory()
+    {$model = new DataStorage();
+        return $this->render('history',['dataProvider'=>$model->getHistory()]);
     }
 }

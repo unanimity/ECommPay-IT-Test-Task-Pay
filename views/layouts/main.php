@@ -40,7 +40,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Pay', 'url' => ['/site/payment']],
-            ['label' => 'History', 'url' => ['/site/about']],
+            ['label' => 'History', 'url' => ['/site/history']],
         ],
     ]);
     NavBar::end();

@@ -14,7 +14,12 @@ $this->title = 'Payment';
 
     <div class="row">
 
+        <div class="col-lg-12">
+            <div class="alert alert-warning" role="alert">
+                Its test data example. App without front validation.
+            </div>
 
+        </div>
 
             <?php $form = ActiveForm::begin(['id' => 'payment-form'], ['method' => 'post']); ?>
             <div class="col-lg-4">
@@ -44,6 +49,7 @@ $this->title = 'Payment';
 
             <?php ActiveForm::end();?>
             </div>
+
 
     </div>
 </div>

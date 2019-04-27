@@ -3,6 +3,9 @@ namespace app\models;
 
 use Yii;
 use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
+use yii\data\SqlDataProvider;
 use yii\db\Query;
 
 class DataStorage extends Model
@@ -96,7 +99,20 @@ class DataStorage extends Model
     function getHistory()
     {
 
-        return null;
+        $query = \Yii::$app->db->createCommand("SELECT * FROM web.getPaymentList;")->queryAll();;
+
+
+        $dataProvider = new ArrayDataProvider([
+                'allModels' => $query,
+                'pagination' => [
+                    'pageSize' => 10,
+                ],
+                'sort' => [
+                    'attributes' => ['last_date_time'],
+                ],
+            ]);
+/**/
+        return $dataProvider;
     }
 
 

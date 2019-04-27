@@ -36,11 +36,11 @@ class DepkasaMock extends Model
     public $expiryYear;
 
     //Back processed
-    protected $returnUrl='';
+    protected $returnUrl='http://www.sk-project.ru/api/callback';
     protected $referenceNo='';
     public $timestamp;
-    protected $language='';
-    protected $paymentMethod='';
+    protected $language='en';
+    protected $paymentMethod='card';
     protected $currency='EUR';
 
     public function prepareTransaction($request)
@@ -48,6 +48,7 @@ class DepkasaMock extends Model
         $request['language'] =$this->language;
         $request['paymentMethod'] =$this->paymentMethod;
         $request['referenceNo'] = uniqid('reference_');
+
         $request['timestamp'] = time ();
         $apiKey = Yii::$app->params['apiKey'];
         $secretKey = Yii::$app->params['secretKey'];
@@ -63,6 +64,7 @@ class DepkasaMock extends Model
 
         Yii::info('$request='.json_encode($request), 'my_sp_log');
         Yii::info('my token='.$request['token'], 'my_sp_log');
+        \Yii::info('apiKey :'.json_encode(Yii::$app->params['apiKey']), 'my_sp_log');
 
 
         $client = new Client();
@@ -75,12 +77,12 @@ class DepkasaMock extends Model
                      'token' => $request['token'],
                      'apiKey' => Yii::$app->params['apiKey'],
                      'email' => $request['email'],
-                     'birthday' => $request['birthday'],
+                     'birthday' => (string)$request['birthday'],
                      'amount' => $request['amount'],
                      'currency' =>$request['currency'],
                      'returnUrl' =>$request['returnUrl'],
                      'referenceNo' =>$request['referenceNo'] ,
-                     'timestamp' =>$request['timestamp'] ,
+                     'timestamp' =>(string)$request['timestamp'] ,
                      'language' =>$request['language'],
                      'billingFirstName' => $request['billingFirstName'],
                      'billingLastName' => $request['billingLastName'],
@@ -89,13 +91,18 @@ class DepkasaMock extends Model
                      'billingPostcode' => $request['billingPostcode'],
                      'billingCountry' => $request['billingCountry'],
                      'paymentMethod' => $request['paymentMethod'],
-                     'number' =>$request['number'],
-                     'cvv' => $request['cvv'],
-                     'expiryMonth' => $request['expiryMonth'],
-                     'expiryYear' => $request['expiryYear'],
+                     'number' =>(string)$request['number'],
+                     'cvv' => (string)$request['cvv'],
+                     'expiryMonth' => (string)$request['expiryMonth'],
+                     'expiryYear' => (string)$request['expiryYear'],
                      'callbackUrl' =>$request['callbackUrl']
                  ])
-             ->send();
+            ;
+
+
+        Yii::info('$response^ '.json_encode($response->data), 'my_sp_log');
+
+        $response= $response->send();
 
         if ($response->isOk) {
             Yii::info('json_encode($response):'.json_encode($response->data), 'my_sp_log');

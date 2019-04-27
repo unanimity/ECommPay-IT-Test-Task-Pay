@@ -20,8 +20,8 @@ $this->title = 'Payment';
             <div class="col-lg-4">
                 <h3>Order</h3>
                 <?= $form->field($model, 'email')->textInput(['autofocus' => true],['value' => 'ecommpay@mail.com']) ?>
-                <?= $form->field($model, 'birthday')->textInput(['value' => '12.12.12'])  ?>
-                <?= $form->field($model, 'amount')->textInput(['value' => '10']) ?>
+                <?= $form->field($model, 'birthday')->textInput(['value' => '1970-01-01'])  ?>
+                <?= $form->field($model, 'amount')->textInput(['value' => '300200']) ?>
             </div>
             <div class="col-lg-4">
                 <h3>Delivery</h3>
@@ -34,10 +34,10 @@ $this->title = 'Payment';
             </div>
             <div class="col-lg-4">
                 <h3>Pay by credit card</h3>
-                <?= $form->field($model, 'number')->textInput(['value' => '0000000000000001']) ?>
-                <?= $form->field($model, 'cvv')->textInput(['value' => '000']) ?>
-                <?= $form->field($model, 'expiryMonth')->textInput(['value' => '12']) ?>
-                <?= $form->field($model, 'expiryYear')->textInput(['value' => '20']) ?>
+                <?= $form->field($model, 'number')->textInput(['value' => '4012888888881881']) ?>
+                <?= $form->field($model, 'cvv')->textInput(['value' => '123']) ?>
+                <?= $form->field($model, 'expiryMonth')->textInput(['value' => '2']) ?>
+                <?= $form->field($model, 'expiryYear')->textInput(['value' => '2']) ?>
             <div class="form-group">
                 <?= Html::submitButton('Donate', ['class' => 'btn btn-block btn-success btn-lg', 'name' => 'pay-button']) ?>
             </div>

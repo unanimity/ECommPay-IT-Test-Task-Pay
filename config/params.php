@@ -5,5 +5,5 @@ return [
     'secretKey'=>'f07fce0a',
     'paymentURL'=>'https://mock01.ecpdss.net/depkasa/a/payment/welcome',
     'paymentDetailURL'=>'https://mock01.ecpdss.net/depkasa/a/payment/detail',
-    'callbackUrl'=>''
+    'callbackUrl'=>'http://www.sk-project.ru/api/callback'
 ];

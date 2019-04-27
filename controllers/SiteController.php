@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\DepkasaMock;
 use app\models\PaymentForm;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -84,7 +85,6 @@ class SiteController extends Controller
         if($model->load(Yii::$app->request->post())) {
          $request=Yii::$app->request->post('PaymentForm');
          $model->Pay($request);
-        \Yii::info('have data:'.json_encode($request), 'my_sp_log');
 
             return $this->render('process',[
                 'model' => $model,
@@ -92,22 +92,17 @@ class SiteController extends Controller
 
         } else
 
-
         return $this->render('payment',[
         'model' => $model,
         ]);
-
-
-
-
 
     }
 
 
     public function actionCallback()
     {
-
-        \Yii::info('actionSay actionKassaCollback()'.json_encode(Yii::$app->request->post()), 'my_sp_log');
+        $model = new PaymentForm();
+        $model->ProcessingCallback(Yii::$app->request->post());
         return $this->render('about');
     }
 }

@@ -50,7 +50,6 @@ class DataStorage extends Model
 
     function setStatus($request){
 
-
        $payments = (new \yii\db\Query())
             ->select(['payment_id'])
             ->from('payments')

@@ -1,6 +1,8 @@
 <?php
 namespace app\models;
 use app\models\DataStorage;
+use Yii;
+
 
 class PaymentForm extends DepkasaMock
 {
@@ -26,12 +28,20 @@ class PaymentForm extends DepkasaMock
         $datastoregge=new DataStorage();
         $args=$this->prepareTransaction($args);
         if ($datastoregge->initPayments($args)){
+            \Yii::info('Pay -PRE :'.json_encode($args), 'my_sp_log');
             $response=$this->PayDepKasa($args);
             if ($response!=null){
-                $datastoregge->setStatus($response);
+                \Yii::info('Pay -OK :'.json_encode($response), 'my_sp_log');
+
+                //   $datastoregge->setStatus($response);
             };
         }
         return true;//
+    }
+    public function ProcessingCallback($args){
+        $datastoregge=new DataStorage();
+        \Yii::info('ProcessingCallback -PRE :'.json_encode($args), 'my_sp_log');
+        $datastoregge->setStatus($args);
     }
 
 

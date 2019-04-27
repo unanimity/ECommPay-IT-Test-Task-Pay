@@ -33,7 +33,7 @@ class PaymentForm extends DepkasaMock
             if ($response!=null){
                 \Yii::info('Pay -OK :'.json_encode($response), 'my_sp_log');
 
-                //   $datastoregge->setStatus($response);
+                   $datastoregge->setStatus($response);
             };
         }
         return true;//

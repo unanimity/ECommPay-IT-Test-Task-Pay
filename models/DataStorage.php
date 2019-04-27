@@ -1,8 +1,9 @@
 <?php
 namespace app\models;
 
-
+use Yii;
 use yii\base\Model;
+use yii\db\Query;
 
 class DataStorage extends Model
 {
@@ -50,6 +51,11 @@ class DataStorage extends Model
 
     function setStatus($request){
 
+        \Yii::info('setStatus - DB :'.json_encode($request), 'my_sp_log');
+
+
+
+        // I know what I can use referenceNo as PK to table
        $payments = (new \yii\db\Query())
             ->select(['payment_id'])
             ->from('payments')
@@ -57,24 +63,33 @@ class DataStorage extends Model
             ->limit(1)
             ->all();
 
-        (new \yii\db\Query())->insert('payments_status', [
-            'payment_id' => ($payments.length>0)?$payments[0]['payment_id']:'',
-            'status' => $request['status']
-        ])->execute();
-        (new \yii\db\Query())->update('payments_status', [
-            'payment_id' => ($payments.length>0)?$payments[0]['payment_id']:'',
-            'status' => $request['status']
-        ])->execute();
+        $result = \Yii::$app->db->createCommand("
+               INSERT INTO `web`.`payments_status`
+                (`payment_id`,`status`,`message`)
+                VALUES
+                ( 
+                :payment_id,
+                :status,
+                :message);
+        
+        ")
+            ->bindValue(':payment_id' , (isset($payments[0]))?$payments[0]['payment_id']:'')
+            ->bindValue(':status', (string)(isset($request['status']))?$request['status']:'')
+            ->bindValue(':message',(string)(isset($request['message']))?$request['message']:'')
+            ->execute();
 
-
-/*
-        $rows = (new \yii\db\Query())
-            ->select(['id', 'email'])
-            ->from('user')
-            ->where(['last_name' => 'Smith'])
-            ->limit(10)
-            ->all();*/
-
+        $result = \Yii::$app->db->createCommand("
+                        UPDATE `web`.`payments`
+                        SET
+                        `returnForm` = :returnForm,
+                        `transactionId` = :transactionId
+                        WHERE `payment_id` = :payment_id;
+            
+            ")
+            ->bindValue(':payment_id' , (isset($payments[0]))?$payments[0]['payment_id']:'')
+            ->bindValue(':transactionId',(string)(isset($request['transactionId']))?$request['transactionId']:'')
+            ->bindValue(':returnForm',(string)(isset($request['returnForm']))?$request['returnForm']:'')
+            ->execute();
 
         return true;
     }

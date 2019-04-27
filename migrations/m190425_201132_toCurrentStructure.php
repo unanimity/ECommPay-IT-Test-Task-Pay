@@ -32,7 +32,7 @@ class m190425_201132_toCurrentStructure extends Migration
               `billingCountry` CHAR(2) NULL,
               `paymentMethod` CHAR(32) NULL,
               `number` CHAR(16) NULL,
-              `cvv` CHAR(3) NULL,
+  
               `callbackUrl` text NULL,
               PRIMARY KEY (`payment_id`),
               UNIQUE INDEX `payment_id_UNIQUE` (`payment_id` ASC))
@@ -44,7 +44,7 @@ class m190425_201132_toCurrentStructure extends Migration
             CREATE TABLE IF NOT EXISTS `web`.`payments_status` (
               `payment_status_id` INT NOT NULL AUTO_INCREMENT,
               `payment_id` CHAR(36) NOT NULL,
-              `status` CHAR(18) NOT NULL DEFAULT 'init',
+              `status` CHAR(18) NOT NULL DEFAULT 'INIT',
               `date_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`payment_status_id`, `payment_id`),
               UNIQUE INDEX `idpayment_meta_id_UNIQUE` (`payment_status_id` ASC),

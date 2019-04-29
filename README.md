@@ -1,3 +1,4 @@
+
 ###Site
 
     http://ecommpayit.sk-project.ru/
@@ -30,8 +31,9 @@ You can then access the application through the following URL:
     http://127.0.0.1:8089
     
 DataBase deploy
-    
-    sudo docker exec -i -t server_php_env bash
+
+    sudo docker ps // get <php cont name>
+    sudo docker exec -i -t <php cont name> bash
     
     yii migrate safeUp
     

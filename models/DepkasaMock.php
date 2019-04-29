@@ -36,7 +36,7 @@ class DepkasaMock extends Model
     public $expiryYear;
 
     //Back processed
-    protected $returnUrl='http://www.sk-project.ru';// store url ?
+    protected $returnUrl='http://ecommpayit.sk-project.ru';// store url ?
     protected $referenceNo='';
     public $timestamp;
     protected $language='en';

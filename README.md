@@ -1,4 +1,6 @@
+###Site
 
+    http://ecommpayit.sk-project.ru/
 
 ### Install
 
@@ -16,12 +18,12 @@ Run the installation triggers (creating cookie validation code)
     
 Start the container
 
-    sudo docker-compose 
+    sudo docker-compose up
     
 Set access to web process
 
-    //example
-    sudo chmod -R 755 /web    
+    //example etc
+    sudo chmod -R 755 ./runtime    
     
 You can then access the application through the following URL:
 
@@ -32,3 +34,14 @@ DataBase deploy
     sudo docker exec -i -t server_php_env bash
     
     yii migrate safeUp
+    
+To callback answer
+
+     /config/params.php  callbackUrl=
+     
+To Apache2
+
+    ProxyRequests off
+    ProxyPreserveHost on
+    ProxyPass / http://127.0.0.1:8089/
+    ProxyPassReverse / http://127.0.0.1:8089/

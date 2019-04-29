@@ -52,6 +52,7 @@ class SiteController extends Controller
             'cors' => [
                 'class' => \yii\filters\Cors::className(),
             ],
+
         ];
     }
 
